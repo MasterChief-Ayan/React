@@ -1,5 +1,14 @@
 # node_modules file to be added soon!
 
+Preview of the website
+![image](https://github.com/user-attachments/assets/45ce269f-fd15-49b2-b3c4-af621177d87a)
+![image](https://github.com/user-attachments/assets/86c1d47f-1a9b-47c3-a440-20d1e416c02c)
+
+![image](https://github.com/user-attachments/assets/99d8cc0e-41db-4eed-a4b7-f50687ef21d5)
+![image](https://github.com/user-attachments/assets/2d547459-fa3c-4006-94ed-a0b661cf22fa)
+![image](https://github.com/user-attachments/assets/c4198c2e-0e53-4db0-bbe4-78f4dce49767)
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
