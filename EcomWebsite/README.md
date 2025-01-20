@@ -1,4 +1,4 @@
-# node_modules files to be added soon!
+# node_modules file to be added soon!
 
 # Getting Started with Create React App
 
