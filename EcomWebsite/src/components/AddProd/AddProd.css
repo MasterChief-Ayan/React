@@ -1,0 +1,42 @@
+.AddProd-title{
+    padding-left: 5vb;
+    padding-top: 5vh;
+}
+
+.AddProd-text{
+    font-size: small ;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;
+    padding-left: 5vb;
+    padding-bottom: 3px;
+}
+
+.AddProd-input-div{
+    display:  flex;
+    flex-direction: row;
+    justify-content:  center;
+}
+
+.AddProd-input{
+    width: 70vb;
+    height: 30px;
+    border-radius: 3px;
+    border:  1px solid rgba(0, 0, 0, 0.288);
+    
+}
+.AddProd-button-div{
+    display:  flex;
+    flex-direction: row;
+    justify-content:  center;
+    padding-top: 5px;
+    padding-bottom: 18px;
+}
+
+.AddProd-button{
+    width: 70vb;
+    background-color: #C9AC42;
+    border: none;
+    height: 30px;
+    border-radius: 3px;
+
+
+}

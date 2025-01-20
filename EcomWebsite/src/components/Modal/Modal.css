@@ -1,0 +1,22 @@
+.backdrop{
+    position: fixed; /*  Ensures the div stays fixed relative to the viewport */
+    top: 0;
+    left: 0;
+    width: 100%;      /* Covers the full width of the viewport */
+    height: 100%;     /* Covers the full height of the viewport */
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    z-index: 1;    /* High z-index to ensure it overlays other content */
+    display: flex;    /* Centers content inside the div (optional) */
+    justify-content: center;
+    align-items: center;
+}
+
+.Modal-div{
+    background-color: white;
+    /* border: 2px solid rgba(0, 0, 0, 0.795); */
+    /* padding: 10vh 20vb; */
+    width: 80vb;
+    display:  flex;
+    flex-direction: column;
+    border-radius: 4px;
+}
