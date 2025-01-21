@@ -1,0 +1,141 @@
+React Optimization 
+
+
+
+HOW TO AVOID RE-RENDERING
+
+1)
+MEMO
+
+use it to Re-render the function on when the parameters(props) are updated;
+
+
+import  {memo} from "react";
+
+const <funcName> = memo(function <funcName> () {//to ; return //to return;})
+
+export default <funcName>;
+
+
+WHERE TO USE?
+
+-> only in places of large necessary components .
+-> re-render due to parent re-rendering
+
+ANY DISADVANTAGES?
+
+-> multiple use causes multiple re-render, decreases performance, etc
+
+2)
+STRUCTURE COMPONENT SUCH THAT U DONT FALL INTO UNNECESSARY RE-RENDER 
+
+
+
+REASON FOR RE-RENDERING is mostly the "useState".
+
+->type "rafc" to creat the basic component code in the component file.
+
+->create use creat state(variable) here and declare or use PROPS to access the function here 
+
+->return the tags / set of similar tags / components of tags that causes change earlier in the parent component when it was define there initially.
+
+
+NOTE: when doing so, make sure that the vaibale is not being used in the parent element, only then its feasible else not !!!        
+							    **********IMP
+----------------------------------------------------------------------------
+
+1) CALLBACK and SETMEMO
+
+useCallback() -> used to RE_RENDER FUNCTION only when specified elements changes 
+
+
+HOW TO USE 
+
+-> wrap the function for it to work and 2nd is name the var when arrow func
+
+
+import {useCallback} from "react";
+
+1st way -->
+
+const <funcName> = useCallback(() => {//to do}, [x1,x2,...]);    //2nd attribute is array of dependencies 
+						as per your choice
+
+
+2nd way -->
+
+
+const <funcName> = useCallback(function () {//to do}, [x1,x2,...]);    //2nd attribute is array of dependencies
+
+
+-->assign it to a variable (MUST) and name it same as func for ease
+--> empty 2nd PARA means , it wount re-render at all!
+
+
+ IMPORTATN TIP : always use func as () => {} when using useAnyKind as use***(()=>{});
+
+
+useMemo() -> returns a memoized value. Anykind of value  (but useCallback is best for func)
+
+HOW TO USE
+
+-> Assign to a variable, and wrap the operation with useMemo
+
+
+
+import { useMemo} from "react";
+
+const x = useMemo(() => calc(cnt),[cnt]);
+
+--------------------------------------------------------------------------------------
+
+1)  HOW REACT WORKS
+
+REAL DOM (old snapshot)           -------->         VIRTUAL DOM(virtual snapshot)
+
+
+components comparing real and virtual and incorporates accordingly , updating the DOM, making the rendering more fast.
+
+
+The real DOM is never the virtual DOM, but it reflects the state of the last rendered virtual DOM after updates. It encorporates the changes and updates the real dom on every page render⚠⚠⚠
+
+ 
+
+2) for using MAP
+
+
+
+->if you are using map for computation only and not rendering any JSX or HTML tags, there is no need to provide a key.
+
+-But when returning the JSX, assign the key to the OUTTERMOST tag
+
+->Avoid using index parameter 
+
+I. E. arr.map((item, index) =>()) 
+
+- causes issue when pushing in array. 
+
+->Index causes inefficient rerendering
+-Same as using a map without keys
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

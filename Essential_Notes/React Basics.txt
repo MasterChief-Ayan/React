@@ -1,0 +1,284 @@
+React Basics
+~ how to write tags 
+-<>  // this creates </>
+then inside <> write the specific tag
+-<p> // this completes </p>
+
+0)JSX uses camelCasing not camel-Casing
+
+1) Name of custom component should start with caps, rest is irrevelent
+
+2) call component as  <ComponentName/> or <ComponentName />
+
+3) proper example of calling (in index.js ) is as follows
+
+const root = ReactDOM.createRoot(document.getElementById(<say_id_of_div>));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);  
+
+4) returning html code from component function in js is done as
+
+return (HTMLCODE);
+
+5) Yo can call a component inside a  component as 
+NOTE: no need to write <React.StrictMode> </React.StrictMode>   *******
+
+function Header() {
+  return <header>Welcome to My App</header>;
+}
+
+function MainContent() {
+  return <div>
+     <p>Main area of the app</p>
+     <Header/>
+
+  </div>;
+}
+
+6) REMEMBER
+~App is your root component and
+~Custom component are added to it  
+
+7) export components as 
+
+function <funcName>() {
+	return //something;
+}
+
+export default <funcName>
+--------------------------------------------------------------------
+Dynamic Content
+
+1) to use js / cssinside the html which is returned, write 
+	 {}  - for js
+	{{}} - for object of Js (not css )
+
+For Eg;
+for js
+<h1>{`HI there! Is 1+1 == ${1+1}?`}</h1>
+for css
+<div style ={{ color : "blue" , backgroundColor : "grey"}}> This is a JSX modified CSS div</div>
+
+2) how to use conditional tags? DYNAMICALLY RENDER TAGS
+
+{boolVar && <p> {wordToShow} </p>} 
+
+NOTE: boolVar only true and false not 1 and 0
+
+2.1)  Via ternary operator
+
+{boolVar ?  <p> {wordToShow} </p> :  <p> {elseToShow} </p> }
+     
+--------------------------------------------------------------------
+Props
+
+1)
+Sending info from App to child component
+
+Steps:
+call the file in the App and send the data with it.
+
+<<componentFile> <name_Of_Var> = {<Var>}/>
+
+2)
+How to receive the data in child component?
+
+-in child function just add the parameter as "props"
+
+Eg;
+
+function <funcName> (props) {//todo}
+//then access via props.<name_Of_Var>
+
+NOTE: All the function in the file must have atleast 1 para defined
+
+3) 
+Ways of accessing the data in props
+
+- props.<name_Of_Var>
+-Via Obj de-structuring      --------->   Best
+
+Eg;
+function <funcName> ({<name_Of_Var>}) {}
+//then access via <name_Of_Var> 
+
+-Via alia
+
+Eg;
+function <funcName> ({<name_Of_Var> : x}) {}
+//then access via x
+
+SPECIAL EXAMPLE OF Props
+```
+function Button({ onClick, children }) {
+  return <button onClick={onClick}>{children}</button>;
+}
+
+function App() {
+  const handleClick = () => alert("Button clicked!");
+
+  return (
+    <div>
+      <Button onClick={handleClick}>Click Me</Button>
+    </div>
+  );
+}
+```
+
+NOTE:
+
+-Button receives onClick (a function) and children (the text "Click Me") as props.
+-the child files is called with (opening + closing tag)
+-function passing as a variable is done as <varForArrowFunc>
+and not <varForArrowFunc>() // as this will execute the function
+
+--------------------------------------------------------------------
+Basic CSS styling
+
+1)
+Inline CSS
+
+Eg;
+
+<p style = {{color : "blue", backgroundColor : "rgb(2,5,233)"}}> something </p>
+
+2) create different css "styles" folder
+- import respective css files (in styles folder) to respective component js file.
+
+--------------------------------------------------------------------
+Children Props & Listening Events
+
+use of this is (one eg) in <li> of <ul>
+
+1)
+
+<Name <name1>={..} <name2> = {..} ... > someText </Name>
+
+// btw opening and closing tage the elemnt is accessed via .children 
+
+i.e.         props.children // to access someText
+ 
+
+
+IMP : de-referencing done for children props is {children}
+
+
+Eg:
+
+for instance a card
+
+function Card({ children }) {
+  return <div className="card">{children}</div>;
+}
+
+function App() {
+  return (
+    <Card>
+      <h2>Title</h2>
+      <p>This is some card content</p>
+    </Card>
+  );
+}
+
+2)how pass para to variable assigned as callback? ******** passing para in callback
+
+instad of {<varWithFunc>}
+{() => <varWithFunc> ( parameter) }
+
+3) how to pass state from parent component to child component in Listening events
+
+--> Refer Special Example Above
+
++ This one
+
+
+function List({children,print}) {
+    return (<li class="navbar-list" onClick = {() =>print(children)} >
+            <div class="navnar-items"> {children} </div> </li>);
+}
+
+function Navbar () {
+    
+    function Printing (text) {
+        console.log(text);
+    }
+
+    return <div>
+        <ul class ="navbar">
+            <List print = {Printing}> About </List>
+            <List print = {Printing}> Products </List>
+            <List print = {Printing}> Contacts </List>
+        </ul>
+    </div>;
+}
+
+****                        IMP                       ****
+
+spaces matters btw opening tag and closing tag as 
+<List > About </List>  != <List >About</List>
+-----------------------------------------------------------------------------
+REACT HOOKS (~ starts with use, Eg useState)
+
+STATES          -----> basically maintaining a global variable (in general) 
+
+Most essential for changing UI (dynamically)
+
+RULES:
+
+- Cant use State in global block
+- used at the top level inside a compoene
+- cant use inside if...else BLOCK
+
+WHY USE at all?
+
+change data (text, image, objects, etc.) based on user interaction and trigger a re-render, you must use state in React.
+
+
+1) import {useState} from "react";
+
+2) // Use it in the variable you want to dynamically update
+
+eg;
+
+const content = "Hi there";			     .....OLD
+const [content, setContent] = useState("Hi there");  .....NEW
+
+3)// Use it where you INITIALLY changed the variable
+
+eg; 
+
+content = text					.....old
+setContent(text);
+
+3) 
+FEW IFs and BUTs of using setContent
+
+- VARIABLE gets updated when it reaches back to the MAIN COMPONENT where it was assigned as setState.
+.:. In between values remain same as its was lastly.
+
+.:. always the case,state update is asynchronous & React schedules the update but doesn't apply it immediately in the same function
+
+4) Condition use case
+
+Eg;
+
+ {temp =="About" ? "Hello there, how may I help you?" : "Anything specific you are looking for" }
+
+
+SPECIAL TIP :
+
+add ternary css class as 
+
+Eg;
+className ={`TierC ${temp ==="About" ? "TierB" : "TierA"}`}
+
+
+
+
+
+
+ 
+

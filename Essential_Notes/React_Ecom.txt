@@ -1,0 +1,280 @@
+React|Ecom
+
+1) using map, as <arr>.map((x) => here);
+
+Replace here with
+-use {} with return 
+-use () 
+
+NOTE: you can send only one div, so incorporate as much as possible in it ***
+
+2)
+
+how to get images from storage
+
+-->FIRST (Declare)
+const Image = require("../../assets/black_shoes.png");
+
+-->SECOND (proving location)
+{require(`../../assets/${data.image}`)}   			......INSIDE a MAP            
+
+Eg;
+
+<img src={require(`../../assets/${data.image}`)} alt={data.id}/>
+
+3)
+HOW to import JSON files?
+
+import productData from "../../data/products.json";
+
+4) TIP: Use props incase of MAP
+
+-------------------------------------------------------------------------
+
+1) how to make focus tab upon clicking of button?            ********IMP
+
+--> use State!
+
+TIP: How to do unFocus when clicked somewhere else?
+
+As somewhere else is a div, Assign div-> onclick ={remover}; and
+do  STOP PROPAGATION in child div
+
+
+2) Conditional DIv PRESENCE
+
+return ({isTrue && <div> </div>});
+
+
+3) Always make MODAL generalized                            ********IMP
+
+TIPS:
+
+-> 1st** Create its bool var and Set and Remove function in APP component
+
+REASON? ==> As it affects the entire page and not only the header!
+
+-> 2nd** in APP call the BTN components and connect those components to MODAL 
+
+-> Interconnect via props/props.children
+
+4)
+Work Flow here
+
+APP
+->Header-(assign)->
+->Products
+->Cart-(boolVar,remover)->Modal-(boolVar,remover)->
+
+
+
+
+5) STOP PROPAGATION                                         ********IMP
+
+if you have a click event on a parent div but want to prevent it from triggering when a child div is clicked
+
+Eg;
+
+As parent div already has the onClick func
+
+add this to children div as
+
+onClick ={(event) => (event.stopPropagation())}
+-----------------------------------------------------------------------------
+
+1) MISTAKE                                                  ***********IMP
+
+wrote in a function ({.......}) but its a function not a component!
+
+2) ARRAY / JSON modification				     **********IMP
+
+{{},{},...} + {} === [...old,new]
+
+Eg;
+function addCartItems( name1, image1 ) {
+  const newItem = { name:name1, image: image1 };
+  setaddItems((prevItems) => [...prevItems, newItem]);
+}
+
+3) Passing entire cart.Modal inside Modal via props.children ********V.V.IMP
+
+MISTAKE: I initially make the cart focus div in the Modal, which is wrong!
+
+4)
+	---------------->  TIP OF THIS SECTION   <-----------------	
+
+ Any tag which changes a intermediate , which is used to change the entire body (one way or the other) , then make a separate component file for it.
+
+----------------------------------------------------------------------------
+1)
+To modify Items,                                              ********(IMP)
+
+-> Make copy of it       (say via obj de-structuring)
+->do the operation
+->setState
+							
+
+2)
+where you defined the SetStates, there only u have the make its functions
+							      **********IMP
+
+3) 
+Specifically performing INCREMENT / DECREMENT Operations,	
+
+->pass id   -> find index -> perform operation {use obj destr f needed} ->assign via use state
+
+4)
+RECALL THESE ESSENTIALS:			  	     *******V.V.IMP
+
+1st --> const index = array.findIndex(item => item.id === targetID);
+
+.:. if found idx >=0 else -1
+
+2nd --> const filteredItems = items.filter(item => item.id !== idToRemove);
+
+5)
+Display conditional content via  1st-> $$ & 2nd-> ternary operator
+
+NOTE: make {bool && <TAGS>}    					*******IMP
+-----------------------------------------------------------------------------
+
+1) 
+To dynamically add items to json
+
+-> make a variable via setState
+-> gets its base value from json as             [...<name>]         *****(*)
+-> you know the rest
+
+2) 
+Analogous to this operator is "useRef"                    *********IMP
+-FOR DOM MANIPULATION  
+
+--> Why use "useRef"
+
+-referencing value
+-manipulating DOM element
+-avoid re-creation of ref contents
+
+--> Code :-
+
+import {useRef} from "react";   // SAME RULES AS useStates
+
+const <name> = useRef();        //Initialized as undefined initially
+
+-->Now use it in a specific tag to be accessed!
+
+<input type="text" placeholder="Enter Here" ref ={<name>} ></input>
+
+-->Now how to access the property of the specified object?
+
+ <name>.current;
+
+
+Eg;
+
+<name>.current.focus();
+<name>.current.value;
+
+3) 
+FORM SPECIFIC DETAILS                                     **********IMP
+
+--> event.preventDefault();			// Prevent reload of the page
+
+
+Eg
+
+function handleSubmit(event){  // function used in onSubmit in FORM TAG
+    event.preventDefault();
+    //To do rest
+}
+
+--> type attribute in BUTTON of form
+
+type="submit"           type="button"            type="reset"
+
+--> attribute in form to take input ???
+
+onSubmit={<functionName>}
+
+IMP NOTE:  set button to submit and use onSubmit in form , in order for it to work.								*******IMP
+
+
+4) {  {},  {},  {}  } ----> length = 3.
+
+5) MISTAKE:
+
+i wrote ../../assets/default_product.png instead of default_product.png as its being later processed my the map  with the help of   "require" 
+
+------------------------------------------------------------------------------------------
+1)
+MORE on FORM HANDELLING
+
+1st -> based on "useRef"
+
+2nd-> 
+
+use value and onChange function in input tag.
+
+-> use useState varable to assign it to the value attribute in input field
+// NOTE: its not necessary but for GOOD Practice! COZ its 2 way binding
+
+-> Assign function in the onChange attribute
+
+as 
+
+FIRST WAY : 
+
+function <funcName> (event) {
+	const x= event.target.value;  // use this to access the value
+}
+
+SECOND WAY:
+
+const <funcName>=(event) => {
+	const x= event.target.value;
+}
+
+
+2)
+
+how to return without making content inside div
+
+i.e.
+
+return (<div>
+	//main content
+</div>);
+
+but to avoid the div                      ****************************IMP
+
+--> use   React.Fragment
+
+as return <React.Fragment> // Actual Content   </React.Fragment>
+
+OR
+
+<> // Actual Content   </>
+
+
+3)
+PORTALS
+
+WHAT & WHY?
+
+Used to render components or elements outside their parent DOM hierarchy. This is helpful for UI patterns like modals, tooltips, or dropdowns, where the element needs to visually appear above everything else in the DOM.
+
+How to use?
+
+-->import {createPortal} from "react-dom";
+
+now use
+
+--> createProtal(//tags to be transported  , //target location );
+
+
+EG:
+
+return createProtal (<div>Hi</div>  , document.body );
+
+
+
