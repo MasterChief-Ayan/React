@@ -68,6 +68,12 @@ const <funcName> = useCallback(() => {//to do}, [x1,x2,...]);    //2nd attribute
 const <funcName> = useCallback(function () {//to do}, [x1,x2,...]);    //2nd attribute is array of dependencies
 
 
+HOTS:
+
+(i)const <funcName> = useCallback(async () => {//to do}, [x1,x2,...]);
+(ii)const <funcName> = useCallback( async function () {//to do}, [x1,x2,...]); 
+
+
 -->assign it to a variable (MUST) and name it same as func for ease
 --> empty 2nd PARA means , it wount re-render at all!
 
