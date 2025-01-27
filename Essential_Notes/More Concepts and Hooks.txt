@@ -1,1 +1,501 @@
 
+Context API Introduction
+
+
+
+Here "context" means connecting some file to any of the other file by use creatContext (file to link), useContext(in target location) & import the file (at parent location of the target destination)
+
+1) where to STORE context?
+
+-> "...src/store"
+
+2) name it as same case separated via '-' symbol.
+
+3)
+EG:
+
+file: app-context.js        
+``` 
+import {createContext} from "react";
+
+const AppContext = createContext("something");
+
+/*
+Eg:
+
+const AppContext = createContext({
+
+	id:"",
+	name:""
+});
+
+then give value = {{id : "1", name : "aya"}}
+
+*/
+
+export default AppContext;
+```
+
+file: index.js       
+
+```
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import AppContext from './store/app-context';			------>(I)
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <AppContext.Provider value ={//value to be stored}>		------>(II)
+    <App />
+  </AppContext.Provider>
+);
+```
+
+NOTE: Provider feeds the content inside the App.js file 
+
+
+the file use create context is use to define the structure of variable to export  & and the  the value attribute used in the provider tag in the parent file of target , is to store the entries or values
+|
+ \
+  ---------------------------------------->           IMP
+	BUT BEST TO KEEP DEFAULT VALUE
+
+SPECIAL: if value assigned is of diff type, it causes problem
+
+file: App.js
+
+import {useContext} from "react";
+import AppContext from "./store/app-context";
+
+function App() {
+  const msg = useContext(AppContext);
+ 
+  return (
+    <>
+      <h1>{msg}</h1>
+    </>
+  );
+}
+
+export default App;
+
+
+
+-------------------------------------------------------------------------------------------
+
+
+CONSUMING CONTEXT
+
+NOTE: the value assigns the given input to the corresponding context file.       *****IMP
+
+1) you can use the PROVIDER anywhere( Eg: in the App.js also)
+
+i.e.
+
+---->in index.js, just render App.js ( and remove the Provider tag as done lastly)
+
+then,
+
+----> in App.js, 
+
+```
+function App() {
+  const msg = useContext(AppContext);
+ 								//V
+  return (
+    <>
+      <AppContext.Provider value = {{id : "22"}}>            //Main part
+      <h1>{msg.id}</h1>
+      </AppContext.Provider>
+    </>
+							        //^  
+);
+}
+```
+
+NOTE: without using the value tag, code insde it wount be able to use the attributes.
+
+2)									
+
+
+NOTE: not sending the "SET" function via props for "Context"!             *******IMP
+
+Eg:
+
+WHY USING THIS CONTEXT (along with Provider at all)
+
+                 AIM   :   basic-o-basic login interface
+
+App.js
+
+
+import {useContext,useState} from "react";
+import AppContext from "./store/app-context";
+import Login from "./components/Login/Login";
+
+function App() {
+  // const msg = useContext(AppContext);
+  const [login,setLogin1] = useState(true);
+  return (
+    
+      <AppContext.Provider value = {{loginStatus : login}}> 
+        <Login/>
+      </AppContext.Provider>
+    
+  );
+}
+
+export default App;
+
+
+app-context.js
+
+
+import {createContext} from "react";
+
+const AppContext = createContext({
+    loginStatus: true
+});
+
+export default AppContext;
+
+
+Login.js
+
+
+
+import React from 'react';
+import {useContext} from "react";
+import AppContext from '../../store/app-context';
+function Login ()  {
+
+    const x = useContext(AppContext);
+  return (
+    <>
+        {x.loginStatus ?   <p>Welcome!</p> : <p>Login Please!</p>}
+    </>
+  )
+}
+export default Login;
+
+
+
+3) how to prevent writing provider wala long name?
+
+
+UNDER STORE -> make "AppProvider.js"
+
+define all the function and states within App.js inside the AppProvider.js
+
+
+Therefore:
+
+App.js
+
+
+
+import {useContext,useState} from "react";
+import AppContext from "./store/app-context";
+import Login from "./components/Login/Login";
+import AppProvider from "./store/AppProvider";
+
+function App() {
+  // const msg = useContext(AppContext);
+  
+  return (
+    
+      <AppProvider > 
+        <Login/>
+      </AppProvider>
+    
+  );
+}
+
+export default App;
+
+
+
+
+AppProvider.js
+
+
+import React, {useState} from 'react'
+import AppContext from './app-context'
+
+function AppProvider  ({children})  {
+  
+    const [login,setLogin] = useState(false);
+
+    function togleFunction(){
+      setLogin(!login);
+    }  
+
+    return (
+    <AppContext.Provider value = {{loginStatus : login, log:togleFunction}}>
+        {children}
+    </AppContext.Provider>
+  )
+}
+
+export default AppProvider
+
+
+
+
+
+
+Login and app-context.js Remain SAME
+
+
+
+
+IMP OVERVIEW:                                      ****************************V.IMP
+
+(i)
+
+
+basically those 
+
+who need the provider, will get it
+
+
+eg
+
+<AppProvider>
+<h1>{str}</h1>
+<CartProvider>
+    <Login/>
+    <Cart/>
+    <AddToCart/>
+
+</CartProvider>
+
+
+</AppProvider>
+
+
+(ii)
+
+
+assign ALL necessary States for the corresponding context.
+
+
+(iii)
+
+pass the states and the function to the value or the CONTEXT data
+
+(iiii)
+
+via provider
+
+------------------------------------------------------------------------------------------
+
+USE REDUCER  (generally used in FORMS)  ------> Commonly use in the provider files
+
+->It is used when there is one state, but multiple function. or multiple state and multiple functions in order. to make things concise.
+
+
+IMPORT IT ----------> import {useReducer} form "react";
+
+
+-> NOTE: [state,dispatching Action] = (reducer function, default value)
+                   |
+                   V
+               when called by this name, to send a msg 
+
+REDUCER FUNCTION ROLE: 
+->Acts as manager, takes the demand, and calls the corresponding function to get it done
+
+->Returns the demanded state of the reducer.
+
+->Independence: Can be declared outside the component since React provides state and action.
+->No Props Needed: Works with state and action, not component props.
+
+
+EG:
+```
+function authReducer(state,action){ //State stores the state | Action is an object
+
+    if(action.type === "LOGINSWAP"){
+      return {
+        loginStatus : !state.loginStatus
+      }
+    }
+    else return state;
+}
+```
+
+
+HOW TO DECLARE USE REDUCER
+
+```
+function AppProvider  ({children})  {
+
+
+    const [authState,dispatchAuth] = useReducer(authReducer,{
+      loginStatus : false
+    });
+    //const [login,setLogin] = useState(false);  NOT NEEDED
+
+    function togleFunction(){
+      //setLogin(!login);       NOT NEEDED
+
+      dispatchAuth({
+        type : "LOGINSWAP"
+        //payload :  {}   not required over here 
+      })
+
+    }  
+
+    return (
+	//NOTE       -----> below i have updated the key of loginStatus as follows
+    <AppContext.Provider value = {{loginStatus : authState.loginStatus, log:togleFunction}}>
+        {children}
+    </AppContext.Provider>
+  )
+}
+
+export default AppProvider
+```
+
+-----------------------------------------------------------------------------------------
+
+SIDE EFFECTS  | USE EFFECT
+
+--> Does not want to be in the rendering part of component but wants to be in the component!
+
+-->useEffect(() => {//Specific part of CODE} , [//dependent array]);
+
+
+WHERE TO USE ?
+
+--> Sometimes there is a possibility of re-rendering due to infinite updation of states/reducedStates.
+
+COMMON EXAMPLES INCLUDES
+
+1.Reading or writing to localStorage.
+
+```
+useEffect(() => {
+  const savedData = localStorage.getItem("key");
+  if (savedData) {
+    setState(JSON.parse(savedData));
+  }
+}, []); // Empty dependency array ensures this runs only once.
+
+```
+
+2.Fetching data from an API.
+
+```
+useEffect(() => {
+  async function fetchData() {
+    const response = await fetch("https://api.example.com/data");
+    const data = await response.json();
+    setState(data);
+  }
+  fetchData();
+}, []); // Run only once on mount.
+
+```
+
+3.Subscribing to events (e.g., window.addEventListener).
+
+```
+useEffect(() => {
+  function handleResize() {
+    console.log("Window resized!");
+  }
+  window.addEventListener("resize", handleResize);
+
+  return () => {
+    window.removeEventListener("resize", handleResize); // Cleanup
+  };
+}, []); // Run once when the component mounts.
+
+```
+4.Interacting with the DOM manually (e.g., animations, focus).
+
+5.Cleaning up resources (e.g., removing event listeners, canceling network requests).
+
+
+WHICH PART TO ME USED INSIDE USEEFFECT ?
+
+--> mainly the part that causes rerender (the variable + task{function or manual operations})
+
+
+
+NOTE: useEffect () runs atleast one (Eg: when there is no para in dependent array as a second parameter);
+
+
+---------------------------------------------------------------------------
+
+EXTRAS :
+
+1)
+onchange 
+-> get the value assigned to a state
+-> set the onchange var to allocated variable
+
+<input value={x} onChange = {(cur) =>func(cur.target.value)}
+
+func is for allocation of the allocated variable .
+
+
+
+
+2) 
+LOCAL STORAGE
+
+--> localStorage.setItem(keyAsString,JSON.stringify(value));
+
+--> localStorage.removeItem(keyAsString);
+
+3)
+
+
+Special feature in useEffect!
+
+
+CLEANUP FUNCTION (Eg: debouncing)
+
+
+general code
+
+
+```
+useEffect(() => {
+  const timer = setTimeout(() => {
+    console.log(myString);
+  }, 1000);
+  
+  return () => clearTimeout(timer);  // Cleanup the timer when the component unmounts
+}, [myString]);
+```
+
+
+
+from 2nd time the useEffect is Re-Rendered, if the earlier "timer" exist, then it will reset the time, so the code inside the useEffect wont work.
+
+Eg;
+->user fast typing
+-> due to re-rendering of useEffect, it wont get the main code running die to "clearTimeout"
+-> and when user takes a breaks (>1000 ms) then its gets rendered
+
+-----------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
