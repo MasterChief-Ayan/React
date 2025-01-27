@@ -1,0 +1,214 @@
+REACT API
+
+Font-End <---API---> Back-End <---API---> DataBase (restricted access to Backend only)
+
+--------------------------------------------------------------------------------------
+
+GET Request
+
+
+TIP : Always use async await function for good practice
+ 
+1)
+fetch(//Specific API, //request type)
+
+--> request type - Is an objects {method: "POST",headers: //,body://,}
+
+
+NOTE: Without the request type, the default fetch is a "GET" fetch.
+
+2) 
+
+useState for displaying the content of the FETCH via set and display the variable accordingly.
+
+3) ALWAYS USE this                                      *********EFFICIENT
+
+```
+if(!API.ok) throw new Error(); 
+```
+
+4)                                               ********************IMP
+
+HOW TO ADD LODING PREVIEW  (STEPS)
+
+-> create a bool "isLoading" initially "false"
+
+->inside fetching function, before "FETCH" line , set, logining -> "TRUE"
+
+->when data successfully received or error successfully received, 
+     then set logining as ->"FALSE"
+
+
+--->Proceed in the following sequence
+
+-> print loading as
+```
+{isLoading && <p>Loading...</p>}
+```
+-> print the content as 
+```
+{!isLoading && STATE.length>0  && <componentToPrint></componentToPrint> }
+```
+->print the error as
+```
+{!isLoading && error && <p>Something Went Wrong!</p>
+
+```
+
+
+5) WHEN INITIALLY RENDING BY DEFAULT
+
+
+just add this inside the function
+
+useEffect(() => {
+    fetchAPI()
+  
+  }, [fetchAPI])      //SAME dependency as it changes when the detch api is geting modified
+
+----------------------------------------------------------------------
+
+POST REQUEST
+
+
+1) do it in a different JS file
+
+2) Take INPUT -> (SAY via form) -> (onSUbmit do the API calling) 
+-> FILL the 2nd Parameter -> Send STRINGIFY -> play with response as u want ->add the file to App.js
+
+---------------------------------------------------------------------
+
+OVERALL CODE
+
+ ----> AddTodo.js  <----
+
+```
+import React , {useRef} from 'react'
+
+const AddTodo = () => {
+    const ref=useRef();
+    const handleSubmit = async (something) =>{
+        something.preventDefault();
+        const todoObj ={
+            name : ref.current.value
+        }
+
+        const API = await fetch("https://react-post-request1-default-rtdb.firebaseio.com/todos.json",  // CREATING array AS todos.json
+            {
+                method : "POST",
+                headers:{
+                    "Content-Type" : "application/json"  //BEST TO MENTIOND IT TO AVOID GETTING ERRORS
+                },
+                body :JSON.stringify(todoObj)
+            }
+        )
+        const response = await API.json();
+        console.log(response);
+    }
+  return (
+    <div>
+        <form onSubmit={handleSubmit}>
+            <label> Todo Name</label>
+            <input ref={ref}></input>
+            <button type="submit" >Add todo</button>
+        </form>
+    </div>
+  )
+}
+
+export default AddTodo
+
+```
+
+
+ ----> AddTodo.js  <----
+
+```
+import './App.css';
+import {useState,useEffect,useCallback} from "react";
+import "./AddTodo"
+import AddTodo from './AddTodo';
+
+function App() {
+
+  const [files,setFiles] = useState ([]);
+  const [isLoading,setIsLoading] =useState(false); 
+  const [errorFileStatus,setErrorFilesStatus] = useState(false);
+
+  const fetchAPI = useCallback(async function ()  {
+    setIsLoading(true);
+
+    try {
+
+      const API = await fetch("https://jsonplaceholder.typicode.com/todos");
+      if(!API.ok) throw new Error();  //if any type of error occur -> go to catch block
+      const response = await API.json() ;
+      
+      setIsLoading(false); //loading completed
+      setFiles(response);  //sending the recieved data
+    } 
+
+    catch (error) {
+      setErrorFilesStatus(true); //error found
+      setIsLoading(false);       //loading completed
+    }
+
+  },[])
+
+  useEffect(() => {
+    fetchAPI()
+  
+  }, [fetchAPI])      //SAME dependency as it changes when the detch api is geting modified
+  
+
+  return (
+    <div className="App">
+      <button onClick={fetchAPI}>Get Data</button>
+      <AddTodo/>
+      <div>
+        {isLoading && <h5>Loading</h5>}    {/*Loading */}
+
+        {/*Printing the main component if its there*/}
+
+        {!isLoading && files.length>0 &&   
+        <ul>
+          {files.map ((cur) => (
+            <ul key ={cur.id}> 
+              <li> {cur.title}</li>
+              <li>{cur.id}</li>
+            </ul>
+          ))}
+        </ul>
+        }
+
+        {!isLoading && errorFileStatus && <h3>Something went wrong!</h3>} {/*Error occured*/}
+      </div>
+    </div>
+  );
+}
+
+export default App;
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
