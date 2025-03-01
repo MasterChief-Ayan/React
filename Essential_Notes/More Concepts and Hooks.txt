@@ -87,6 +87,8 @@ export default App;
 
 CONSUMING CONTEXT
 
+(i) DEFINE context   (ii) declare states in respective domains  (iii) linke the states with the respective context
+
 NOTE: the value assigns the given input to the corresponding context file.       *****IMP
 
 1) you can use the PROVIDER anywhere( Eg: in the App.js also)
@@ -303,6 +305,8 @@ via provider
 ------------------------------------------------------------------------------------------
 
 USE REDUCER  (generally used in FORMS)  ------> Commonly use in the provider files
+
+OVERVIEW: Desired action-> call resp func-> sends action to REDUCER_FUNCTION-> returns the new object type accordingly based on action.type -> updates the REDUCER STATE 
 
 ->It is used when there is one state, but multiple function. or multiple state and multiple functions in order. to make things concise.
 
