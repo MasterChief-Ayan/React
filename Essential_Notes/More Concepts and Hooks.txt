@@ -116,7 +116,18 @@ function App() {
 
 NOTE: without using the value tag, code insde it wount be able to use the attributes.
 
-2)									
+2)					
+
+VIMP:                        Wrapping <App /> with a Provider in index.js makes the context accessible to all its children using useContext. AS LONG AS COMMON ANCESTOR HAS THE PROVIDER TAG USED <-------------
+
+
+
+
+
+
+
+
+
 
 
 NOTE: not sending the "SET" function via props for "Context"!             *******IMP
