@@ -1,0 +1,61 @@
+React Routing
+
+1: Introduction to Routing and Defining Routes
+
+Single page application (not milti-pg app) 
+
+-it appears that the multi pages are loading but it will actually be a single page
+
+- futher beanching in the url(further / in URL) 
+		---> component gets changed
+
+
+React Router (2 common version)
+
+(i) createBrowserRouter (Latest Version)
+
+import{creatBrowserRouter, RouterProvider} from "react-router-dom";
+import PgorComp_Name from "./pages/Home";
+
+const router = createBrowserRouter([{path:"/",element: <PgorComp_Name />},{..},...];
+
+function App(){
+return <RouterProvider router={router} />;
+}
+
+
+
+//NOTE: each {} -> each page(or Comp) & path gets added
+
+
+(ii) BrowserRouter   (Old Version)
+
+import {BrowserRouter, Routes, Route} from "react-router-dom";
+
+function App() {
+
+return <BrowserRouter basename="/app">
+	 <Routes>
+	    <Route path = "/" element={<PgorComp_Name1 />} />
+	    <Route path = "/" element={<PgorComp_Name2 />} />
+	    .
+	    ..
+	    ...
+
+	 </Routes>
+       </BrowserRouter > 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
