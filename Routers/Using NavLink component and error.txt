@@ -1,0 +1,41 @@
+3: Using NavLink component and errorElement
+
+(i)
+How to highlight the ACTIVE page?
+
+--> use NavLink 
+
+'''import {NavLink} from "react-router-dom";'''
+
+HOW TO USE:
+
+- Replace all the existing Link TAG with NavLink
+- use Additional props className i.e.
+
+<NavLink  to="<something>" className= {({isActive}) => (isActive?"<className1":"className2")}> </NavLink>
+
+MISTAKE:
+
+{isActive} -> De - Structuring is done.
+
+
+(ii)
+How to Show Personalized Error msg in RANDOM PATH ?
+
+->create Another page in the pages folder
+->do the necessary detailing in the Error Page js file
+->in the main / root directory (or page) 
+	-before child element ,   use errorElement : <Errorfile/>,
+
+Eg;
+
+{
+path: "/",
+ element: <Something />,
+ errorElement : <ErrorPage />,
+ children:[{},{},..]
+}
+
+//The entire Error page gets render upon wrong url
+
+
