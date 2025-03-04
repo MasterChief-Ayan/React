@@ -1,0 +1,45 @@
+*{
+    padding:  0px;
+    margin: 0px;
+}
+
+.Header{
+    position: fixed;
+    width: 100%;
+    padding-top: 0.6vh;
+    padding-bottom: 1vh;
+    padding-left: 15px;
+    box-shadow: rgba(50, 50, 93, 0.111) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    background-color: #121212;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    /* height: 5vh; */
+}
+.HeaderName{
+    color: #C9AC42;
+}
+
+.HeaderButton{
+    
+    margin-top: 0.95vh;
+    margin-right: 5px;
+    padding: 7px;
+    padding-inline: 14px;
+    background-color: #C9AC42;
+    border-radius:  7px;
+    cursor: pointer;
+}
+
+.HeaderButtonDiv{
+    /* border: 2px solid white; */
+    margin-right: 4vb;
+    width: 190px;
+    /* padding-top: 4px; */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+

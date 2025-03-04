@@ -1,0 +1,87 @@
+.Cart-title{
+    padding-left: 10px ;
+}
+.Cart-title h1 {
+    padding-left: 5px;
+}
+
+.Cart-items {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    /* border:  2px solid green; */
+    margin-top: 5vh;
+
+}
+
+.Cart-image-plus-text{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+}
+.Cart-items-image {
+    /* width: 100%; */
+    border:  2px solid black;
+    height: 15vh;
+    width: 15vb;
+}
+
+
+.Cart-items-image img{
+    height: 15vh;
+    width: 15vb;
+}
+
+.Cart-items-text{
+    /* border:  2px solid blue; */
+    padding-left: 2vb;
+    display:  flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+}
+
+.Cart-items-quantity{
+    /* border:  2px solid red; */
+    margin-right: 5px;
+    /* width: 20vb; */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.Cart-button-qunaitiy{
+    height: 4vh;
+    width: 6vb;
+    /* padding: 0.6vh 1.1vb; */
+    border-radius: 5px;
+    background-color: #C9AC42;
+    border: none;
+    cursor: pointer;
+}
+.Cart-quanitiy-btn-div{
+    /* border: 2px solid red; */
+    width: 10vb;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    
+}
+
+.Cart-button-qunaitiy{
+    margin: 5px;
+}
+
+.Cart-footer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px;
+}
+.Empty-cart-div{
+    /* border: 2px solid black; */
+    text-align:  center;
+    padding: 2vh 0vb;
+}
