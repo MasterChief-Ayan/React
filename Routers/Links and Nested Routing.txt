@@ -1,0 +1,97 @@
+2: Links and Nested Routing
+
+
+(i)
+Going to new address via button or link (WITHOUT RELOADING):
+
+NOTE: 
+
+Dont use Anchor TAG as it refreshes the entire WEB pages which we dont want
+
+EG:
+
+in HOME done use 
+
+<a href="/products"> Products </a>    .....Used inside the return JSX part of the HOME
+
+
+LINK COMPONENT 
+
+'''import {Link} from "react-router-dom";'''
+
+use this->
+	<Link to="/products">Products</Link>
+
+
+TRICK:
+
+Replace:
+a    -> Link
+href -> to
+
+
+(ii)
+Nested Routing
+
+NOTE:  
+
+If your child paths are /a and /b and you have an <Outlet /> in the root page, clicking a link to /a or /b will update the content inside the root page instead of navigating to a completely new page. The URL changes, and React Router swaps the child component inside <Outlet /> while keeping the parent layout intact.
+
+
+EG:
+
+Root->{Home,Product}
+
+i.e.
+
+const router = createrBrowserRouter([
+{
+path:"/",
+element: <Root/>,
+children:[{path:"/home",element:"<Home/>} , {path:"/product",element:"<Products/>}]
+}
+]);
+
+
+//NOTE: You can also define again a path == "/" in the child Component (SUPER WEIRD)
+
+### Now we need to maintain the childs to also get printed in the same root WITHOUT reloading
+
+
+thus use ---> Outlet Component
+'''import {Outlet} from "react-router-dom";''' 
+
+i.e.
+in the PARENT (root) 
+
+
+return (<>
+
+<div> NON SENSE </div>
+<Outlet/>              <------------------------  here the child component will get printed  DEPENDING UPON THE PATH
+
+
+</>)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
