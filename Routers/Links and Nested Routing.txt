@@ -36,9 +36,11 @@ href -> to
 (ii)
 Nested Routing
 
+BEST USE CASE IS NAVBAR (for using children components)
+
 NOTE:  
 
-If your child paths are /a and /b and you have an <Outlet /> in the root page, clicking a link to /a or /b will update the content inside the root page instead of navigating to a completely new page. The URL changes, and React Router swaps the child component inside <Outlet /> while keeping the parent layout intact.
+children at the children path will print their resp component in the order where the Outlet tag is there in the code of the parent
 
 
 EG:
