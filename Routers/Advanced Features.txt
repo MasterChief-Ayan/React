@@ -1,0 +1,212 @@
+Advanced Features
+
+1) initially loading via useEffect is less efficient than using
+
+-> loader   (provided in the router, DECLARE it in the CBR)
+
+HOW TO USE
+
+loader: () => {//useEffect wala code}
+
+i.e.
+
+
+const router= createBrowserRouter([
+  {path:"/", element:<Root/>,errorElement:<Error/> ,children:[
+    {path: "/home", element: <Home/>},
+    {path: "/prod1", element: <Prod1/>},
+    {path: "/prod1/:id", element :<ProductInfo/>},
+    {path: "/todos", element:<Todos/>,loader:async () =>{
+      try{
+          const response= await fetch("URL");
+          if(!response.ok) throw new Error("Bekar hai bhai!");
+          const data = await response.json();
+
+          return data;            //  -------> NEW LINE
+      }
+      catch(error){
+          console.log("Isse na ho paiga!");
+          return {isError:true, msg:"Isse na ho paiga!"}; //  -------> NEW LINE
+      }
+    }}
+  ]},
+]);
+
+
+
+
+
+IMP 
+
+(i)
+Loader is rendered 1st
+Component rendered 2nd
+
+(ii)
+- Child has a loader            → `useLoaderData()` gives child's data.  
+- Child has no loader           → `useLoaderData()` throws an error.  
+- To get parent’s data in child →  Use `useRouteLoaderData("parentId")`.
+
+-BUT PROFF told, if no childLoad, loader of nearest ANCESTOR will be taken
+else throws error
+
+
+
+
+LOADER CONTENT is defined inside the component itself
+
+
+
+1. import the loader of the component in the App.js
+
+2. use that function inside the loader
+
+3. define the loaderfunction according
+
+EG:
+
+in Ap.js
+
+import { todosLoader } from './pages/Todos';
+
+const router= createBrowserRouter([
+  {path:"/", element:<Root/>,errorElement:<Error/> ,children:[
+    {path: "/home", element: <Home/>},
+    {path: "/prod1", element: <Prod1/>},
+    {path: "/prod1/:id", element :<ProductInfo/>},
+    {path: "/todos", element:<Todos/>,loader:todosLoader}
+  ]},
+]);
+
+and in Todos.js
+
+export async function todosLoader() {
+    try{
+        const response= await fetch("URL");
+        if(!response.ok) throw new Error("Bekar hai bhai!");
+        const data = await response.json();
+
+        return data;            //  -------> NEW LINE
+    }
+    catch(error){
+        console.log("Isse na ho paiga!");
+        return {isError:true, msg:"Isse na ho paiga!"}; //  -------> NEW LINE
+    }
+}
+
+
+
+
+ERROR HANDELING
+
+1.
+
+use the standard method as 
+--> throw new Error("Bekar hai bhai");
+
+as
+-Can be caught using .catch(error) where error.message will contain "Bekar hai bhai".
+
+2. cheap(CUSTOME) method (EASY AND NICE)
+
+- in catch block mention 
+-> return {isError: true, msg:"Error"};
+
+and in the component function
+
+do conditional statement as 
+
+todos.isError==true? <something>: <elseSomething>;
+
+
+PARAMS
+
+Route params are parsed from dynamic segments and passed to your loader. This is useful for figuring out which resource to load:
+
+createBrowserRouter([
+  {
+    path: "/teams/:teamId",
+    loader: ({ params }) => {
+      return fakeGetTeam(params.teamId);
+    },
+  },
+]);
+
+RETURNING REPONSE (alternative method while returning from LOADER)
+
+
+While you can return anything you want from a loader and get access to it from useLoaderData, you can also return a web Response.
+
+This might not seem immediately useful, but consider fetch. Since the return value of fetch is a Response, and loaders understand responses, many loaders can return a simple fetch!
+
+// an HTTP/REST API
+function loader({ request }) {
+  return fetch("/api/teams.json", {
+    signal: request.signal,
+  });
+}
+
+// or even a graphql endpoint
+function loader({ request, params }) {
+  return fetch("/_gql", {
+    signal: request.signal,
+    method: "post",
+    body: JSON.stringify({
+      query: gql`...`,
+      params: params,
+    }),
+  });
+}
+
+You can construct the response yourself as well:
+
+function loader({ request, params }) {
+  const data = { some: "thing" };
+  return new Response(JSON.stringify(data), {
+    status: 200,
+    headers: {
+      "Content-Type": "application/json; utf-8",
+    },
+  });
+}
+
+
+Using the json utility simplifies this so you don't have to construct them yourself. This next example is effectively the same as the previous example:
+
+import { json } from "react-router-dom";
+
+function loader({ request, params }) {
+  const data = { some: "thing" };
+  return json(data, { status: 200 });
+}
+
+If you're planning an upgrade to Remix, returning responses from every loader will make the migration smoother.
+
+
+FORMAL METHOD OF THROWING ERROR
+
+You can throw in your loader to break out of the current call stack (stop running the current code) and React Router will start over down the "error path".
+
+function loader({ request, params }) {
+  const res = await fetch(`/api/properties/${params.id}`);
+  if (res.status === 404) {
+    throw new Response("Not Found", { status: 404 });
+  }
+  return res.json();
+}
+
+
+NOTE::
+
+in case of throw, it shows the nearest error block , so 
+specific error can be displayed as
+
+-> import< useRouterError} from "react-touter-dom";
+
+const error=userRouterError();
+
+return <div>(error.data?error.data:"bekar hai bhaiya, mai toh tooth gaya")</div>
+
+
+
+
