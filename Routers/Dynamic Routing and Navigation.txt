@@ -1,0 +1,98 @@
+Dynamic Routing and Navigation
+
+
+(i) 
+Dynamic Routing 
+
+eg u dont know how many CHILDREN pgs will be there 
+
+So,
+
+1.
+
+-> define a common basic page
+-> path it as "/products/:id" 
+   &
+   element as "<ProductInfo/>" (in createBrowserRouter)
+
+HERE
+
+-> ':' is the dynamic routing 
+means any PATH as "/products/<anySTRING>" will render ProductInfo page.
+
+2.
+->Define the COMMON PAGE
+-> u dont know what page is it right?
+-> get it from the PATH, how?
+
+-> useParams -------> Hook
+
+HOW TO USE:
+
+in COMMON PAGE
+
+import {useParams} from "react-router-dom"
+
+const <COMMONPAGE> = () => {
+
+    const params = useParams();
+  return (
+    <div>ProductInfo
+        <p>{params.id}</p>         {//---> render id as defined in CBR}
+    </div>
+  )
+}
+
+3.
+
+HOW TO RENDER ALL THE DYNAMIC CONTENT IN THE CHILD PAGE ?
+
+->API CALL OR MANUALL(for example)
+
+->once ARRAY IS EXTRACTED,
+   in PARENT PAGE use map as
+
+EG:
+
+return (
+    <>
+    <ul>
+      {arr.map((x)=>(
+        <li>
+          <Link to={`/prod/${x.id}`}>{`${x.id} : ${x.name}`}</Link>
+        </li>
+      ))}
+    </ul>
+    </>
+  )
+
+NOTE: Here i additionally also provided it with a link to make it clickable
+
+
+IMP NOTE (else lead to MISTAKE) : 
+-> PATH === always absolutely defined
+-> to link is dynamic and made via `...${..}`
+
+(ii)
+
+useNavigate ----->Hook
+
+USE CASE: Mainly to automatically redirect user to some page
+
+eg:
+
+SAY in HOME:
+
+import {useNavigate} from "react-router-dom"
+
+function helper(){
+    navigate("/products");
+}
+
+return <button onClick={helper}>Products</button>;
+
+
+NOTE: Here to be used based upon the user click but in general application would be
+
+-> After Login Go TO Main PAGE , etc
+
