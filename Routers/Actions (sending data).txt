@@ -1,0 +1,50 @@
+Actions (sending data)
+
+Form (not form)
+
+import { Form } from "react-router-dom";
+
+
+and use as
+
+function NewProducts() {
+  return (<>
+    <h1>NewProducts</h1>
+
+    <Form method="post"> 
+        <div>
+        <input type="text" placeholder="Input" name="name" title="name" className="button"/>
+        </div>
+        <button type="submit" className="button">ADD</button>
+    </Form>
+    </>
+  )
+}
+
+export as
+
+export async function action({request, params}){
+    const data1= await request.formData();
+    const enteredName = data1.get("name");
+    return null;    // <--------------SPECIAL
+}
+
+
+NOTE :
+
+// OR redirect to a page as return redirect ("/home");      obv , import {redirect} from "react-router-dom"
+
+
+
+in App.js use this
+
+-> import { action  as newProductAction} from './pages/NewProducts';
+
+
+
+and then in CBR,
+{path: "/newprod", element:<NewProducts/>,action:newProductAction}
+
+
+
+NOTE: Other methoeds are also there for fetch and other but u know the earlier method used in ECOMWEB right?
