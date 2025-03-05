@@ -23,6 +23,9 @@ use this->
 	<Link to="/products">Products</Link>
 
 
+MISTAKE: NOT to be used in the App.js but in the required Page
+
+
 TRICK:
 
 Replace:
