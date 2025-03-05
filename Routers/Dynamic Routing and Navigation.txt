@@ -91,6 +91,12 @@ function helper(){
 
 return <button onClick={helper}>Products</button>;
 
+OR
+
+return <button onClick={() => (navi("/products"))}>Products</button>;
+}
+
+
 
 NOTE: Here to be used based upon the user click but in general application would be
 
