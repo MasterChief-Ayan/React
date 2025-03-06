@@ -1,0 +1,42 @@
+REDUX
+
+Introduction to Redux
+
+Function of REDUX === Function of useContext  (for APP WIDE STATE like userAuth)
+
+BUT, 
+
+useContext has some disadvantages!
+
+- Long provider
+  i.e. declaring and passing all the function and states,
+- Nested provider
+  i.e. multipled provider recursively inside the provider
+- Not optimized for states which CHANGES TOO FREQUENTLY!
+
+
+Thus Redux -> State Management
+
+
+1.
+
+Central App state (central store)
+
+2.
+
+Components access store via subscription
+
+-components change store state via Reducer Function (NOT useReducer)
+--as {state,action} coming from component while being Dispatched
+
+
+
+
+-----------------------------------------------
+
+
+INSTALLATION (for Toolkit)
+
+'''npm i redux react-redux @reduxjs/toolkit'''
+
+ 

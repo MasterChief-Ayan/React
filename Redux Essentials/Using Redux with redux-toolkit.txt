@@ -1,0 +1,144 @@
+Using Redux with redux-toolkit  (V.IMP)
+
+1. 
+Create an app wide state (INSIDE STORE FOLDER as "store.js")
+
+as
+
+import {createSlice, configureStore} from "@reduxjs/toolkit";
+
+const counterSlice = createSlice ({    //---------->   (I)
+
+   name: "counter",
+   initialState: {counter:0, class:'A'},
+   reducers:{
+
+      increment (state) { state.counter++ }, 
+      decrement (state) { state.counter-- }, 
+      set (state,action) {
+	  state.counter=action.payload;
+
+	/* for PAYLOAD AS OBJECT
+		ACCESS as 
+  	--> action.payload.name
+	-->action.payload.age
+
+	*/
+
+      }
+
+   },
+
+});
+
+const moreSlice = createSlice ({     //---------->   (II)
+
+   name: "morecounter",
+   initialState: {counter:0, class:'S'},
+   reducers:{
+
+      increment (state) { state.counter++ }, 
+      decrement (state) { state.counter-- }, 
+
+   },
+
+});
+
+const store = configureStore({		// TO be EXPORTED
+
+   reducer : {<Name_for_(I)> : counterSlice.reducer, <for_(II)>:moreSlice.reducer},
+
+// Say, <Name_for_(I) > = counter
+// Say, <Name_for_(II)> = more
+
+
+});
+
+export default store;
+export counteraction  = counterSlice.actions;    //<------
+
+2.
+in the root file i.e. 
+--> the index.js
+
+do this,
+
+import {Provider} from "react-redux";
+import store from "....."
+
+&&
+
+instead of 
+
+root.render(<App/>);
+
+do this,
+
+root.render(
+
+   <Provider store={store}>
+      <App/> 
+   </Provider>
+
+)
+
+3.
+
+In App.js
+
+import {useSelector,useDispatch} from "react-redux";
+
+
+and then 
+
+do this, inside the APP function
+
+
+-> GETTING OBJECT
+
+@ START
+const state = useSelector((state) => (state.counter));
+or 
+const state = useSelector((state) => (state.more));
+
+
+-> USING FUNCTION (corresponding)
+
+const dispatch = useDispatch();
+
+--->Now using individual function as 
+
+  const increment = useCallback(() => {
+    dispatch(counterAction.increment())
+  },[dispatch]);
+
+
+where SAY
+
+import { counterAction } from "./store/counterSlice";
+
+---> ASSIGNMENT function usecase
+
+const setting =useCallback( (val) => {
+    dispatch(counterAction.set(val))
+  });
+
+
+
+BEST PRACTICE 
+
+1) create SEPARATE slice files and then 
+->import the slice in the store.js
+->import the action from the separate file
+
+-> keep the configureStore in the store.js ITSELF
+
+2)
+useCallback in each dispatch function call.
+
+
+3)
+
+Yes, wrapping your app with <Provider> allows you to use useSelector and useDispatch in any child component to access state and dispatch actions. 🚀
+
+
