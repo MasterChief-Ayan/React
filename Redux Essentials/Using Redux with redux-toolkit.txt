@@ -15,7 +15,7 @@ const counterSlice = createSlice ({    //---------->   (I)
 
       increment (state) { state.counter++ }, 
       decrement (state) { state.counter-- }, 
-      set (state.action) {
+      set (state,action) {
 	  state.counter=action.payload;
 
 	/* for PAYLOAD AS OBJECT
