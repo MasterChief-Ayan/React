@@ -95,7 +95,9 @@ and then
 
 do this, inside the APP function
 
-
+********************************************************
+NOTE: the const variable currentGraph updates dynamically when Redux state changes, even though it's declared as const
+********************************************************
 -> GETTING OBJECT
 
 @ START
