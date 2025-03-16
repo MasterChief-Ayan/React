@@ -55,7 +55,7 @@ const store = configureStore({		// TO be EXPORTED
 });
 
 export default store;
-export counteraction  = counterSlice.actions;    //<------
+export const counteraction  = counterSlice.actions;    //<------
 
 2.
 in the root file i.e. 
